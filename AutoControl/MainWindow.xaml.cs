@@ -55,15 +55,7 @@ namespace AutoControl
             // نمایش آیکون در منوی hidden icons
             notifyIcon.Visible = true;
         }
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-        {
-            // مخفی کردن پنجره اصلی به جای بسته شدن
-            e.Cancel = true;
-            this.Hide();
-            // نمایش آیکون در منوی hidden icons
-            notifyIcon.Visible = true;
-        }
-
+       
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             string username = Settings.Default.Username;
@@ -71,6 +63,7 @@ namespace AutoControl
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+           
             Reset2();
         }
 
@@ -209,11 +202,22 @@ namespace AutoControl
                     // چک کردن این که آیا برنامه دارای پنجره‌ای قابل دیدن است
                     if (!String.IsNullOrEmpty(process.MainWindowTitle))
                     {
-                        process.Kill();
+                        if (process.MainWindowTitle == this.Title)
+                        {
+
+                        }
+                        else if (process.MainWindowTitle == "Windows Explorer")
+                        {
+
+                        }
+                        else
+                        {
+                            process.CloseMainWindow();
+                        }
                     }
                 }
 
-                ProcessStartInfo psi = new ProcessStartInfo("shutdown", "/s /t 10");
+                ProcessStartInfo psi = new ProcessStartInfo("shutdown", "/s /t 2");
                 psi.CreateNoWindow = true; // بدون نمایش پنجره خط فرمان
                 psi.UseShellExecute = false; // استفاده از محیط غیرهمزمان
                 Process.Start(psi); // اجرای دستورات خاموش کردن سیستم
@@ -226,6 +230,16 @@ namespace AutoControl
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             check = false;
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            if (psbPassword.Password.Trim() == "")
+            {
+                MessageBox.Show("insert Password");
+                return;
+            }
+            this.Close();
         }
     }
 }
