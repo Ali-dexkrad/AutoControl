@@ -125,8 +125,7 @@ namespace AutoControl
         {
             if (InternetCheck.Internet_test() == false)
             {
-                MessageBox.Show("No Internet");
-                return;
+                ChechStatus();
             }
             try
             {
@@ -175,8 +174,7 @@ namespace AutoControl
         {
             if (InternetCheck.Internet_test() == false)
             {
-                MessageBox.Show("No Internet");
-                return;
+                Reset();
             }
             try
             {
@@ -247,8 +245,7 @@ namespace AutoControl
         {
             if (InternetCheck.Internet_test() == false)
             {
-                MessageBox.Show("No Internet");
-                return;
+                Reset2();
             }
             try
             {
