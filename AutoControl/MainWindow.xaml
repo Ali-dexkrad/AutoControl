@@ -76,11 +76,11 @@
             <Button x:Name="btnHide" Content="--" Style="{StaticResource titleButton}" Width="20" Margin="0,6,33,336" FontFamily="/Dashboard;component/#Vazir" Click="btnHide_Click" Cursor="Hand" Background="#FF776ABD" Height="20"/>
             <Button x:Name="btnMore" Content="i" Style="{StaticResource titleButton}" Width="20" Margin="0,6,58,336" FontFamily="/Dashboard;component/#Vazir" Cursor="Hand" Background="#FF776ABD" Height="20" Click="btnMore_Click"/>
             <Label Content="Auto Control" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,52,0,0" Width="332" HorizontalContentAlignment="Center" FontSize="15"/>
-            <Grid x:Name="txt_Grid1" Margin="73,96,73,219" ToolTip="برای ثبت لازم به نوشت کد نیستید ولی برای ویرایش و حذف نوشتن کد الزامی است">
+            <Grid x:Name="txt_Grid1" Margin="73,96,73,219" >
                 <TextBlock MouseDown="text_MouseDown"  x:Name="textUsername" Visibility="{Binding Text.IsEmpty, Converter={StaticResource BoolToVis}, ElementName=txtDashboardSearch}" Margin="6,18,3,15" VerticalAlignment="Center" Foreground="#594f7f" IsHitTestVisible="False" Panel.ZIndex="1" FontFamily="/Dashboard;component/#Vazir" Text="Username"/>
                 <TextBox TextChanged="txt_TextChanged" x:Name="txtUsername" Style="{StaticResource serachTextBox}" FlowDirection="RightToLeft" FontFamily="/Dashboard;component/#Vazir"/>
             </Grid>
-            <Grid x:Name="txt_Grid" Margin="73,152,73,163" ToolTip="برای ثبت لازم به نوشت کد نیستید ولی برای ویرایش و حذف نوشتن کد الزامی است">
+            <Grid x:Name="txt_Grid" Margin="73,152,73,163" >
                 <TextBlock MouseDown="text_MouseDown"  x:Name="textPassword" Visibility="{Binding Text.IsEmpty, Converter={StaticResource BoolToVis}, ElementName=txtDashboardSearch}" Margin="6,18,3,15" VerticalAlignment="Center" Foreground="#594f7f" IsHitTestVisible="False" Panel.ZIndex="1" FontFamily="/Dashboard;component/#Vazir" Text="Password"/>
                 <TextBox TextChanged="txt_TextChanged" x:Name="txtPassword" Style="{StaticResource serachTextBox}" FlowDirection="RightToLeft" FontFamily="/Dashboard;component/#Vazir"/>
             </Grid>

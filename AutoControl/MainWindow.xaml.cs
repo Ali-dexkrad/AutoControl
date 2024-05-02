@@ -97,7 +97,13 @@ namespace AutoControl
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            try
+            {
+                this.DragMove();
+            }
+            catch (Exception)
+            {
+            }   
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
