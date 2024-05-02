@@ -5,19 +5,99 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoControl"
         mc:Ignorable="d"
-        Title="Auto Control" Height="368.182" Width="335.273" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="assest/img/icons8-off-48.ico" Loaded="Window_Loaded" Closing="Window_Closing" AllowsTransparency="True" WindowStyle="None">
+        Title="Auto Control" Height="368.182" Width="335.273" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="assest/img/icons8-off-48.ico" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="{x:Null}" MouseDown="Window_MouseDown">
+    <Window.Resources>
+
+        <Style x:Key="titleButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#776abd"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="0 0 15 0"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="#776abd"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <Style x:Key="serachTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="#f3f3f3"/>
+            <Setter Property="Foreground" Value="#594f7f"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="40 13 15 13"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border x:Name="border" CornerRadius="13" Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                            SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden"
+                                VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#d9d9d9" TargetName="border"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#d9d9d9" TargetName="border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+    </Window.Resources>
     <Grid>
-        <Button x:Name="btnStart" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" Margin="209,241,0,0" Height="40" Click="btnStart_Click"/>
-        <Button x:Name="btnStop" Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" Margin="27,241,0,0" Height="40" Click="btnStop_Click"/>
-        <PasswordBox x:Name="psbPassword" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156" Margin="97,131,0,0" Height="23"/>
-        <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="156" Margin="97,77,0,0"/>
-        <Label Content="Password" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="27,131,0,0"/>
-        <Label Content="Username" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="27,77,0,0"/>
-        <Label x:Name="lblStatus" Content="Status : " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="53,190,0,0" Width="226" HorizontalContentAlignment="Center"/>
-        <CheckBox x:Name="saveinfo" Content="Save Info" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="97,159,0,0" Width="73"/>
-        <Label Content="Do not use a VPN" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="111,28,0,0"/>
-        <Button x:Name="btnHide" Content="Hide" HorizontalAlignment="Left" VerticalAlignment="Top" Width="43" Margin="236,10,0,0" Height="26" Click="btnHide_Click"/>
-        <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Width="43" Margin="282,10,0,0" Height="26" Click="btnClose_Click"/>
+        <Rectangle HorizontalAlignment="Left" Height="368" VerticalAlignment="Top" Width="335" Fill="#FF776ABD" RadiusY="15" RadiusX="15"/>
+        <Grid x:Name="Main" Margin="3,3,0,3">
+            <Rectangle Fill="White" Margin="0,0,3,0" RadiusX="15" RadiusY="15"/>
+            <Button x:Name="btnClose" Content="x" Style="{StaticResource titleButton}" Width="20" Margin="0,6,9,336" FontFamily="/Dashboard;component/#Vazir" Click="btnClose_Click" Cursor="Hand" Background="#FF776ABD" Height="20"/>
+            <Button x:Name="btnHide" Content="--" Style="{StaticResource titleButton}" Width="20" Margin="0,6,33,336" FontFamily="/Dashboard;component/#Vazir" Click="btnHide_Click" Cursor="Hand" Background="#FF776ABD" Height="20"/>
+            <Button x:Name="btnMore" Content="i" Style="{StaticResource titleButton}" Width="20" Margin="0,6,58,336" FontFamily="/Dashboard;component/#Vazir" Cursor="Hand" Background="#FF776ABD" Height="20" Click="btnMore_Click"/>
+            <Label Content="Auto Control" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,52,0,0" Width="332" HorizontalContentAlignment="Center" FontSize="15"/>
+            <Grid x:Name="txt_Grid1" Margin="73,96,73,219" ToolTip="برای ثبت لازم به نوشت کد نیستید ولی برای ویرایش و حذف نوشتن کد الزامی است">
+                <TextBlock MouseDown="text_MouseDown"  x:Name="textUsername" Visibility="{Binding Text.IsEmpty, Converter={StaticResource BoolToVis}, ElementName=txtDashboardSearch}" Margin="6,18,3,15" VerticalAlignment="Center" Foreground="#594f7f" IsHitTestVisible="False" Panel.ZIndex="1" FontFamily="/Dashboard;component/#Vazir" Text="Username"/>
+                <TextBox TextChanged="txt_TextChanged" x:Name="txtUsername" Style="{StaticResource serachTextBox}" FlowDirection="RightToLeft" FontFamily="/Dashboard;component/#Vazir"/>
+            </Grid>
+            <Grid x:Name="txt_Grid" Margin="73,152,73,163" ToolTip="برای ثبت لازم به نوشت کد نیستید ولی برای ویرایش و حذف نوشتن کد الزامی است">
+                <TextBlock MouseDown="text_MouseDown"  x:Name="textPassword" Visibility="{Binding Text.IsEmpty, Converter={StaticResource BoolToVis}, ElementName=txtDashboardSearch}" Margin="6,18,3,15" VerticalAlignment="Center" Foreground="#594f7f" IsHitTestVisible="False" Panel.ZIndex="1" FontFamily="/Dashboard;component/#Vazir" Text="Password"/>
+                <TextBox TextChanged="txt_TextChanged" x:Name="txtPassword" Style="{StaticResource serachTextBox}" FlowDirection="RightToLeft" FontFamily="/Dashboard;component/#Vazir"/>
+            </Grid>
+            <CheckBox x:Name="checkbox_SaveInfo" Content="Save Info" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,204,0,0" Width="73"/>
+            <Button x:Name="btnStart" Content="Start" Style="{StaticResource titleButton}" Width="74" Margin="0,233,73,99" FontFamily="/Dashboard;component/#Vazir" Click="btnStart_Click" Cursor="Hand" Background="#FF1CA41C"/>
+            <Button x:Name="btnStop" Content="Stop" Style="{StaticResource titleButton}" Width="74" Margin="0,233,185,99" FontFamily="/Dashboard;component/#Vazir" Click="btnStop_Click" Cursor="Hand" Background="#FFC31313"/>
+            <Label x:Name="lblStatus" Content="Status : " VerticalAlignment="Top" Margin="52,273,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="226"/>
+            <RadioButton x:Name="rbtnShutdown" Content="Shut Down" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,314,0,0"/>
+            <RadioButton x:Name="rbtnHibernet" Content="Hibernet" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="194,314,0,0"/>
+
+        </Grid>
+        <Grid x:Name="More" Margin="3,42,0,3" Visibility="Hidden">
+            <Rectangle Fill="White" Margin="0,0,3,0" RadiusX="15" RadiusY="15"/>
+            <Label Content="v2.0.0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="286,297,0,0" Width="45"/>
+            <TextBlock TextWrapping="Wrap" Margin="10,0,19,31" TextAlignment="Right" ><Span FlowDirection="RightToLeft"><Run Text="شما میتوانید با اسفاده از این برنامه از راه دور سیستم خود را خاموش و یا به هایبرنت بگذارید"/><Run Text=". "/></Span><LineBreak/><Run FlowDirection="RightToLeft" Text=""/><LineBreak/><Run FlowDirection="RightToLeft" Text="پیشنهاد ما گذاشتن به هایبرنت هست. برای اینکه عمل هایبرنت به درستی کار کند اول گزینه قابلیت هایبرنت سیستم خود را روشن کنید. میتوانید از مسیر زیر این کار را بکنید"/><LineBreak/><Run/><LineBreak/><Run Text="Control Panel\Hardware and Sound\Power Options \System Settings"/><LineBreak/><LineBreak/><Run FlowDirection="RightToLeft" Text="شما باید از طریق سایت : http://autocontrol.freehost.io/"/><LineBreak/><Run FlowDirection="RightToLeft" Text="ثبت نام را انجام دهد سپس میتوانید عملیات خاموش کردن را انجام دهید"/><LineBreak/><LineBreak/><Run FlowDirection="RightToLeft" Text="آدرس سازنده : "/><LineBreak/><Run Text="alipourmohammad.ir"/><LineBreak/><Run Text="dexkrad.dev"/></TextBlock>
+
+        </Grid>
 
     </Grid>
 </Window>
