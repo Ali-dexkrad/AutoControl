@@ -201,7 +201,22 @@ namespace AutoControl
         {
             try
             {
-                Process.Start("shutdown", "/s /t 0 /f");
+                Process[] processes = Process.GetProcesses();
+
+
+                foreach (Process process in processes)
+                {
+                    // چک کردن این که آیا برنامه دارای پنجره‌ای قابل دیدن است
+                    if (!String.IsNullOrEmpty(process.MainWindowTitle))
+                    {
+                        process.Kill();
+                    }
+                }
+
+                ProcessStartInfo psi = new ProcessStartInfo("shutdown", "/s /t 10");
+                psi.CreateNoWindow = true; // بدون نمایش پنجره خط فرمان
+                psi.UseShellExecute = false; // استفاده از محیط غیرهمزمان
+                Process.Start(psi); // اجرای دستورات خاموش کردن سیستم
             }
             catch (Exception ex)
             {
