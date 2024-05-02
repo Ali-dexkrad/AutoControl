@@ -14,7 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Runtime.InteropServices;
 using AutoControl.Properties;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using MessageBox = System.Windows.MessageBox;
@@ -69,6 +69,11 @@ namespace AutoControl
             string username = Settings.Default.Username;
             txtUsername.Text = username;
         }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Reset2();
+        }
+
         private async  void btnStart_Click(object sender, RoutedEventArgs e)
         {
             if (saveinfo .IsChecked == true)
@@ -148,6 +153,7 @@ namespace AutoControl
                     var responseContent = await response.Content.ReadAsStringAsync();
                     if (responseContent == "Reset")
                     {
+                        await Task.Delay(4000);
                         ShutDown();
                     }
                 }
@@ -158,37 +164,77 @@ namespace AutoControl
                 MessageBox.Show($"Trouble resetting: {ex.Message}");
             }
         }
+        private async void Reset2()
+        {
+            try
+            {
+                lblStatus.Content = "Status : Reset";
+
+                var url = "http://autocontrol.freehost.io/reset.php"; // آدرس کامل کد PHP خود را اینجا قرار دهید
+
+                // ایجاد یک instance از HttpClient
+                using (var httpClient = new HttpClient())
+                {
+                    // ایجاد داده‌های فرم برای ارسال
+                    var formData = new FormUrlEncodedContent(new[]
+                    {
+                    new KeyValuePair<string, string>("email", txtUsername.Text), // جایگزین your_username با نام کاربری موردنظر خود کنید
+                    new KeyValuePair<string, string>("password", psbPassword.Password)  // جایگزین your_password با رمز عبور موردنظر خود کنید
+                });
+
+                    // ارسال درخواست POST و دریافت پاسخ
+                    var response = await httpClient.PostAsync(url, formData);
+
+                    // خواندن و چاپ پاسخ
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                   
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Trouble resetting: {ex.Message}");
+            }
+        }
+
         private void ShutDown()
         {
             try
             {
-                lblStatus.Content = "Status : Shuting Down";
-                // بدست آوردن همه فرایندهای در حال اجرا
                 Process[] processes = Process.GetProcesses();
 
-                // بستن فرایندهای با پنجره‌های مرئی
+                // نمایش اطلاعات بخش Apps
                 foreach (Process process in processes)
                 {
-                    // بررسی آیا فرایند دارای MainWindowTitle خالی است یا نه
                     if (!string.IsNullOrEmpty(process.MainWindowTitle))
                     {
-                        // اگر دارای MainWindowTitle نبود، فرایند بسته می‌شود
-                        process.Kill();
+
+                        if (process.MainWindowTitle == "Microsoft Text Input Application")
+                        {
+                        }
+                        if (process.MainWindowTitle == "Windows Shell Experience Host")
+                        {
+                        }
+                        if (process.MainWindowTitle == this.Title)
+                        {
+                        }
+                        else
+                        {
+                            process.Kill();
+                        }
                     }
-                }                // ایجاد یک instance از کلاس ProcessStartInfo
-                ProcessStartInfo psi = new ProcessStartInfo();
+                }
+                // اجرای دستور خاموش کردن با استفاده از دستور shutdown
+                using (Process process = new Process())
+                {
+                    ProcessStartInfo psi = new ProcessStartInfo("shutdown", "/s /t 0");
+                    psi.CreateNoWindow = true;
+                    psi.UseShellExecute = false;
+                    process.StartInfo = psi;
 
-                // تنظیمات برای اجرای دستور shutdown
-                psi.FileName = "shutdown";
-                psi.Arguments = "/s /t 0"; // /s برای خاموش کردن و /t برای تعیین زمان
-
-                // ایجاد یک instance از کلاس Process با استفاده از تنظیمات فوق
-                Process p = new Process();
-                p.StartInfo = psi;
-
-                // اجرای دستور shutdown
-                p.Start();
-
+                    // اجرای دستور خاموش کردن
+                    process.Start();
+                }
 
             }
             catch (Exception ex)
@@ -196,12 +242,9 @@ namespace AutoControl
                 MessageBox.Show($"Trouble shutting down: {ex.Message}");
             }
         }
-
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             check = false;
         }
-
-        
     }
 }

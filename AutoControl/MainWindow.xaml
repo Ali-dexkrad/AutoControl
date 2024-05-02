@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoControl"
         mc:Ignorable="d"
-        Title="Auto Control" Height="368.182" Width="335.273" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="assest/img/icons8-off-48.ico" Loaded="Window_Loaded">
+        Title="Auto Control" Height="368.182" Width="335.273" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="assest/img/icons8-off-48.ico" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid>
         <Button x:Name="btnStart" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" Margin="209,241,0,0" Height="40" Click="btnStart_Click"/>
         <Button x:Name="btnStop" Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" Margin="27,241,0,0" Height="40" Click="btnStop_Click"/>
