@@ -201,41 +201,7 @@ namespace AutoControl
         {
             try
             {
-                Process[] processes = Process.GetProcesses();
-
-                // نمایش اطلاعات بخش Apps
-                foreach (Process process in processes)
-                {
-                    if (!string.IsNullOrEmpty(process.MainWindowTitle))
-                    {
-
-                        if (process.MainWindowTitle == "Microsoft Text Input Application")
-                        {
-                        }
-                        if (process.MainWindowTitle == "Windows Shell Experience Host")
-                        {
-                        }
-                        if (process.MainWindowTitle == this.Title)
-                        {
-                        }
-                        else
-                        {
-                            process.Kill();
-                        }
-                    }
-                }
-                // اجرای دستور خاموش کردن با استفاده از دستور shutdown
-                using (Process process = new Process())
-                {
-                    ProcessStartInfo psi = new ProcessStartInfo("shutdown", "/s /t 0");
-                    psi.CreateNoWindow = true;
-                    psi.UseShellExecute = false;
-                    process.StartInfo = psi;
-
-                    // اجرای دستور خاموش کردن
-                    process.Start();
-                }
-
+                Process.Start("shutdown", "/s /t 0 /f");
             }
             catch (Exception ex)
             {
