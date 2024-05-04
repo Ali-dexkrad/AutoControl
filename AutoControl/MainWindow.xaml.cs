@@ -268,7 +268,14 @@ namespace AutoControl
 
                     // خواندن و چاپ پاسخ
                     var responseContent = await response.Content.ReadAsStringAsync();
-                   
+                    if (responseContent == "Reset")
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Not Reset");
+                    }
                 }
             }
 
@@ -309,7 +316,6 @@ namespace AutoControl
             else
             {
                 Reset2();
-                this.Close();
             }
         }
 
