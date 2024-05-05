@@ -265,29 +265,9 @@ namespace AutoControl
                 }
                 else
                 {
-                    // پیدا کردن همه فرایندهای در حال اجرا
-                    Process[] processes = Process.GetProcesses();
+                    endprocess();
 
-                    // بستن هر فرایند که دارای MainWindowTitle است
-                    foreach (Process process in processes)
-                    {
-                        if (!string.IsNullOrEmpty(process.MainWindowTitle))
-                        {
-                            try
-                            {
-                                if (process.MainWindowTitle == this.Title)
-                                {
-                                }
-                                else
-                                {
-                                    process.Kill();
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                            }
-                        }
-                    }
+
                     // فشردن کلید ویندوز
                     keybd_event((byte)VK_LWIN, 0, 0, UIntPtr.Zero);
                     // فشردن کلید X
@@ -296,12 +276,12 @@ namespace AutoControl
                     keybd_event((byte)VK_X, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
                     keybd_event((byte)VK_LWIN, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
 
-                    System.Threading.Thread.Sleep(200);
+                    System.Threading.Thread.Sleep(1000);
 
                     keybd_event((byte)VK_U, 0, 0, UIntPtr.Zero);
                     keybd_event((byte)VK_U, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
 
-                    System.Threading.Thread.Sleep(200);
+                    System.Threading.Thread.Sleep(1000);
 
                     keybd_event((byte)VK_U, 0, 0, UIntPtr.Zero);
                     keybd_event((byte)VK_U, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
@@ -416,6 +396,29 @@ namespace AutoControl
             {
                 More.Visibility = Visibility.Visible;
             }
+        }
+        private async void endprocess()
+        {
+            Process[] processes = Process.GetProcesses();
+
+            foreach (Process process in processes)
+            {
+                if (!string.IsNullOrEmpty(process.MainWindowTitle))
+                {
+                    try
+                    {
+                        if (process.MainWindowTitle != "Auto Control")
+                        {
+                            process.Kill();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+            }
+            await Task.Delay(2000);
+
         }
     }
 }
