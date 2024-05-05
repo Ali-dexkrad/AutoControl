@@ -164,7 +164,6 @@ namespace AutoControl
             }
             catch (Exception ex)
             {
-                throw;
                 MessageBoxResult x =  MessageBox.Show($"Problem sending request: {ex.Message} , مشکلی در اینترنت وجود دارد. برای بررسی مجدد کلید اوکی و برای لغو کلید کنسل را بزنید","error",MessageBoxButton.OKCancel,MessageBoxImage.Error);
                 if (x == MessageBoxResult.OK)
                 {
@@ -266,6 +265,29 @@ namespace AutoControl
                 }
                 else
                 {
+                    // پیدا کردن همه فرایندهای در حال اجرا
+                    Process[] processes = Process.GetProcesses();
+
+                    // بستن هر فرایند که دارای MainWindowTitle است
+                    foreach (Process process in processes)
+                    {
+                        if (!string.IsNullOrEmpty(process.MainWindowTitle))
+                        {
+                            try
+                            {
+                                if (process.MainWindowTitle == this.Title)
+                                {
+                                }
+                                else
+                                {
+                                    process.Kill();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                    }
                     // فشردن کلید ویندوز
                     keybd_event((byte)VK_LWIN, 0, 0, UIntPtr.Zero);
                     // فشردن کلید X
@@ -281,8 +303,8 @@ namespace AutoControl
 
                     System.Threading.Thread.Sleep(200);
 
-                    keybd_event((byte)VK_H, 0, 0, UIntPtr.Zero);
-                    keybd_event((byte)VK_H, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                    keybd_event((byte)VK_U, 0, 0, UIntPtr.Zero);
+                    keybd_event((byte)VK_U, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
                 }
             }
             catch (Exception ex)
