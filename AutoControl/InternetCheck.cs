@@ -10,7 +10,7 @@ namespace AutoControl
             Ping ping = new Ping();
             try
             {
-                PingReply reply = ping.Send("www.google.com");
+                PingReply reply = ping.Send("www.digikala.com");
                 if (reply.Status == IPStatus.Success)
                 {
                     return true;

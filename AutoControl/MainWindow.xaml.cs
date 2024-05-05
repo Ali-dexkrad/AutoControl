@@ -123,14 +123,11 @@ namespace AutoControl
 
         private async void ChechStatus()
         {
-            if (InternetCheck.Internet_test() == false)
-            {
-                ChechStatus();
-            }
+         
             try
             {
                 lblStatus.Content = "Status : Cheking Status";
-                var url = "http://autocontrol.freehost.io/getStatus.php";
+                var url = "https://autocontrol.freehost.io/getStatus.php";
                 while (true)
                 {
                     if (check == false)
@@ -167,20 +164,26 @@ namespace AutoControl
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Problem sending request: {ex.Message}");
+                MessageBoxResult x =  MessageBox.Show($"Problem sending request: {ex.Message} , مشکلی در اینترنت وجود دارد. برای بررسی مجدد کلید اوکی و برای لغو کلید کنسل را بزنید","error",MessageBoxButton.OKCancel,MessageBoxImage.Error);
+                if (x == MessageBoxResult.OK)
+                {
+                    ChechStatus();
+                }
+                else
+                {
+                    check = false;
+                    return;
+                }
             }
         }
         private async void Reset()
         {
-            if (InternetCheck.Internet_test() == false)
-            {
-                Reset();
-            }
+           
             try
             {
                 lblStatus.Content = "Status : Reset";
 
-                var url = "http://autocontrol.freehost.io/reset.php"; 
+                var url = "https://autocontrol.freehost.io/reset.php"; 
 
                 using (var httpClient = new HttpClient())
                 {
@@ -209,9 +212,28 @@ namespace AutoControl
 
             catch (Exception ex)
             {
-                MessageBox.Show($"Trouble resetting: {ex.Message}");
+                MessageBoxResult x = MessageBox.Show($"Problem sending request: {ex.Message} , مشکلی در اینترنت وجود دارد. برای بررسی مجدد کلید اوکی و برای لغو کلید کنسل را بزنید", "error", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                if (x == MessageBoxResult.OK)
+                {
+                    Reset();
+                }
+                else
+                {
+                    return;
+                }
             }
         }
+        // وارد کردن اطلاعات مربوط به API ویندوز
+        [DllImport("user32.dll")]
+        public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+
+        // ثابت‌های مورد نیاز برای ارسال دستورات به کیبورد
+        const int VK_LWIN = 0x5B; // کد کلید ویندوز سمت چپ
+        const int VK_X = 0x58; // کد کلید X
+        const int VK_U = 0x55; // کد کلید U
+        const int VK_H = 0x48; // کد کلید H
+        const int KEYEVENTF_KEYUP = 0x0002; // کلید را آزاد کنید بعد از فشرده شدن آن
+
         private void ShutDown()
         {
             if (checkbox_SaveInfo.IsChecked == true)
@@ -223,35 +245,61 @@ namespace AutoControl
             {
                 if (rbtnHibernet.IsChecked == true)
                 {
-                    ProcessStartInfo psi = new ProcessStartInfo("shutdown", "/h");
-                    psi.CreateNoWindow = true;
-                    psi.UseShellExecute = false; 
-                    Process.Start(psi); 
+                    // فشردن کلید ویندوز
+                    keybd_event((byte)VK_LWIN, 0, 0, UIntPtr.Zero);
+                    // فشردن کلید X
+                    keybd_event((byte)VK_X, 0, 0, UIntPtr.Zero);
+
+                    keybd_event((byte)VK_X, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                    keybd_event((byte)VK_LWIN, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+
+                    System.Threading.Thread.Sleep(200);
+
+                    keybd_event((byte)VK_U, 0, 0, UIntPtr.Zero);
+                    keybd_event((byte)VK_U, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+
+                    System.Threading.Thread.Sleep(200);
+
+                    keybd_event((byte)VK_H, 0, 0, UIntPtr.Zero);
+                    keybd_event((byte)VK_H, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
                 }
                 else
                 {
-                    ProcessStartInfo psi = new ProcessStartInfo("shutdown", "/s /t 0 /f");
-                    psi.CreateNoWindow = true;
-                    psi.UseShellExecute = false; 
-                    Process.Start(psi); 
+                    // فشردن کلید ویندوز
+                    keybd_event((byte)VK_LWIN, 0, 0, UIntPtr.Zero);
+                    // فشردن کلید X
+                    keybd_event((byte)VK_X, 0, 0, UIntPtr.Zero);
+
+                    keybd_event((byte)VK_X, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                    keybd_event((byte)VK_LWIN, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+
+                    System.Threading.Thread.Sleep(200);
+
+                    keybd_event((byte)VK_U, 0, 0, UIntPtr.Zero);
+                    keybd_event((byte)VK_U, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+
+                    System.Threading.Thread.Sleep(200);
+
+                    keybd_event((byte)VK_H, 0, 0, UIntPtr.Zero);
+                    keybd_event((byte)VK_H, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Trouble shutting down: {ex.Message}");
+                ProcessStartInfo psi = new ProcessStartInfo("shutdown", "/s /t 0 /f");
+                psi.CreateNoWindow = true;
+                psi.UseShellExecute = false;
+                Process.Start(psi);
             }
         }
         private async void Reset2()
         {
-            if (InternetCheck.Internet_test() == false)
-            {
-                Reset2();
-            }
+           
             try
             {
                 lblStatus.Content = "Status : Reset";
 
-                var url = "http://autocontrol.freehost.io/reset.php"; // آدرس کامل کد PHP خود را اینجا قرار دهید
+                var url = "https://autocontrol.freehost.io/reset.php"; // آدرس کامل کد PHP خود را اینجا قرار دهید
 
                 // ایجاد یک instance از HttpClient
                 using (var httpClient = new HttpClient())
@@ -281,7 +329,15 @@ namespace AutoControl
 
             catch (Exception ex)
             {
-                MessageBox.Show($"Trouble resetting: {ex.Message}");
+                MessageBoxResult x = MessageBox.Show($"Problem sending request: {ex.Message} , مشکلی در اینترنت وجود دارد. برای بررسی مجدد کلید اوکی و برای لغو کلید کنسل را بزنید", "error", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                if (x == MessageBoxResult.OK)
+                {
+                    Reset2();
+                }
+                else
+                {
+                    return;
+                }
             }
         }
 
