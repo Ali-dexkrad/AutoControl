@@ -94,7 +94,7 @@
         </Grid>
         <Grid x:Name="More" Margin="3,42,0,3" Visibility="Hidden">
             <Rectangle Fill="White" Margin="0,0,3,0" RadiusX="15" RadiusY="15"/>
-            <Label Content="v2.0.0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="286,297,0,0" Width="45"/>
+            <Label Content="v2.1.0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="286,297,0,0" Width="45"/>
             <TextBlock TextWrapping="Wrap" Margin="10,0,19,31" TextAlignment="Right" ><Span FlowDirection="RightToLeft"><Run Text="شما میتوانید با اسفاده از این برنامه از راه دور سیستم خود را خاموش و یا به هایبرنت بگذارید"/><Run Text=". "/></Span><LineBreak/><Run FlowDirection="RightToLeft" Text=""/><LineBreak/><Run FlowDirection="RightToLeft" Text="پیشنهاد ما گذاشتن به هایبرنت هست. برای اینکه عمل هایبرنت به درستی کار کند اول گزینه قابلیت هایبرنت سیستم خود را روشن کنید. میتوانید از مسیر زیر این کار را بکنید"/><LineBreak/><Run/><LineBreak/><Run Text="Control Panel\Hardware and Sound\Power Options \System Settings"/><LineBreak/><LineBreak/><Run FlowDirection="RightToLeft" Text="شما باید از طریق سایت : http://autocontrol.freehost.io/"/><LineBreak/><Run FlowDirection="RightToLeft" Text="ثبت نام را انجام دهد سپس میتوانید عملیات خاموش کردن را انجام دهید"/><LineBreak/><LineBreak/><Run FlowDirection="RightToLeft" Text="آدرس سازنده : "/><LineBreak/><Run Text="alipourmohammad.ir"/><LineBreak/><Run Text="dexkrad.dev"/></TextBlock>
 
         </Grid>

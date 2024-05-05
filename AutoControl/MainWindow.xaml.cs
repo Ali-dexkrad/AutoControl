@@ -127,7 +127,7 @@ namespace AutoControl
             try
             {
                 lblStatus.Content = "Status : Cheking Status";
-                var url = "https://autocontrol.freehost.io/getStatus.php";
+                var url = "http://autocontrol.freehost.io/getStatus.php";
                 while (true)
                 {
                     if (check == false)
@@ -164,6 +164,7 @@ namespace AutoControl
             }
             catch (Exception ex)
             {
+                throw;
                 MessageBoxResult x =  MessageBox.Show($"Problem sending request: {ex.Message} , مشکلی در اینترنت وجود دارد. برای بررسی مجدد کلید اوکی و برای لغو کلید کنسل را بزنید","error",MessageBoxButton.OKCancel,MessageBoxImage.Error);
                 if (x == MessageBoxResult.OK)
                 {
@@ -183,7 +184,7 @@ namespace AutoControl
             {
                 lblStatus.Content = "Status : Reset";
 
-                var url = "https://autocontrol.freehost.io/reset.php"; 
+                var url = "http://autocontrol.freehost.io/reset.php"; 
 
                 using (var httpClient = new HttpClient())
                 {
@@ -299,7 +300,7 @@ namespace AutoControl
             {
                 lblStatus.Content = "Status : Reset";
 
-                var url = "https://autocontrol.freehost.io/reset.php"; // آدرس کامل کد PHP خود را اینجا قرار دهید
+                var url = "http://autocontrol.freehost.io/reset.php"; // آدرس کامل کد PHP خود را اینجا قرار دهید
 
                 // ایجاد یک instance از HttpClient
                 using (var httpClient = new HttpClient())
@@ -322,7 +323,15 @@ namespace AutoControl
                     }
                     else
                     {
-                        MessageBox.Show("Not Reset");
+                        MessageBoxResult x = MessageBox.Show("مشکلی در ریست شدن وجود دارد. لطفا نام کاربری و رمز خود را چک کنید.برای خروج دکمه کنسل را بزنید","error", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                        if (x == MessageBoxResult.OK)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            this.Close();
+                        }
                     }
                 }
             }
